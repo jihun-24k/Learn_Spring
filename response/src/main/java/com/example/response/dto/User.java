@@ -1,5 +1,7 @@
 package com.example.response.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class User {
     private String name;
     private int age;
