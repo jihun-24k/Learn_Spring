@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import dto.Car;
 import dto.User;
 
@@ -47,5 +48,11 @@ public class Main {
 
         List<Car> _cars = objectMapper.convertValue(arrayNode, new TypeReference<List<Car>>() {});
         System.out.println(_cars);
+
+        ObjectNode objectNode = (ObjectNode) jsonNode;
+        objectNode.put("name", "steve");
+        objectNode.put("age", 20);
+
+        System.out.println(objectNode.toPrettyString());
     }
 }
