@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.dto.Req;
 import com.example.server.dto.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +19,22 @@ public class ServerApiController {
     }
 
     @PostMapping("/user/{userId}/name/{userName}")
-    public User post(@RequestBody User user,
-                     @PathVariable int userId,
-                     @PathVariable String userName,
-                     @RequestHeader("x-authorization") String authorization,
-                     @RequestHeader("custom-header") String customHeader
+    public Req<User> post(@RequestBody Req<User> user,
+                          @PathVariable int userId,
+                          @PathVariable String userName,
+                          @RequestHeader("x-authorization") String authorization,
+                          @RequestHeader("custom-header") String customHeader
     ){
         log.info("userId : {}, userName : {}", userId, userName);
         log.info("authorization : {}, custom-header : {}", authorization, customHeader);
         log.info("client req : {}",user);
 
-        return user;
+        Req<User> response = new Req<>();
+        response.setHeader(
+                new Req.Header()
+        );
+        response.setBody(user.getBody());
+
+        return response;
     }
 }

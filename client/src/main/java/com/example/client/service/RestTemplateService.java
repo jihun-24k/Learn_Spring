@@ -4,6 +4,8 @@ import com.example.client.dto.Req;
 import com.example.client.dto.UserRequest;
 import com.example.client.dto.UserResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.lang.reflect.ParameterizedType;
 import java.net.URI;
 
 @Slf4j
@@ -94,7 +97,7 @@ public class RestTemplateService {
         return response.getBody();
     }
 
-    public UserResponse genericExchange(){
+    public Req<UserResponse> genericExchange(){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://localhost:9090")
                 .path("/api/server/user/{userId}/name/{userName}")
@@ -104,16 +107,20 @@ public class RestTemplateService {
                 .toUri();
         System.out.println(uri);
 
-        Req req = new Req();
-        req.setHeader();
-        req.setBody();
-
         // http body -> object -> object mapper -> json -> rest template -> http
-        UserRequest req = new UserRequest();
-        req.setName("jihun");
-        req.setAge(10);
+        UserRequest userRequest = new UserRequest();
+        userRequest.setName("jihun");
+        userRequest.setAge(10);
 
-        RequestEntity<UserRequest> requestEntity = RequestEntity
+        Req<UserRequest> req = new Req<>();
+        req.setHeader(
+                new Req.Header()
+        );
+        req.setBody(
+                userRequest
+        );
+
+        RequestEntity<Req<UserRequest>> requestEntity = RequestEntity
                 .post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("x-authorization", "abcd")
@@ -121,7 +128,9 @@ public class RestTemplateService {
                 .body(req);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<UserResponse> response = restTemplate.exchange(requestEntity, UserResponse.class);
+
+        ResponseEntity<Req<UserResponse>> response
+                = restTemplate.exchange(requestEntity, new ParameterizedTypeReference<>(){});
 
         return response.getBody();
     }
