@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="DollarCalculatorTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-02-15T05:34:31" hostname="jihunui-MacBookAir.local" time="0.592">
+  <properties/>
+  <testcase name="dollarTest()" classname="DollarCalculatorTest" time="0.582"/>
+  <testcase name="testHello()" classname="DollarCalculatorTest" time="0.003"/>
+  <testcase name="MockTest()" classname="DollarCalculatorTest" time="0.005"/>
+  <system-out><![CDATA[22000
+hello
+60000
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
